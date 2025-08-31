@@ -4,14 +4,13 @@ Hệ thống dự đoán số xổ số sử dụng Recurrent Neural Network (RN
 
 ## Tính năng
 
-- **3 loại dự đoán:**
-  - `raw_numbers`: Dự đoán số xổ số nguyên (000-999)
-  - `sum`: Dự đoán tổng các chữ số (0-27)
-  - `counts`: Dự đoán số lần xuất hiện của từng chữ số (0-9)
+- **Mô hình chính:**
+  - `raw_numbers`: Dự đoán số xổ số nguyên (000-999) với 255 dự đoán khác nhau
 
 - **Kiến trúc mô hình:**
-  - 3 LSTM layers với dropout
-  - Dense layers với activation functions
+  - 3 LSTM layers với dropout và regularization
+  - GaussianNoise, BatchNormalization, L2 regularization
+  - Data augmentation và temperature scaling
   - Early stopping và learning rate reduction
   - Validation split 20%
 
@@ -71,7 +70,21 @@ Script sẽ:
 - Thực hiện dự đoán
 - Hiển thị kết quả chi tiết
 
-### 4. Test mô hình raw_numbers
+### 4. Dự đoán 255 số khác nhau từ mô hình
+
+Dự đoán 255 số khác nhau hoàn toàn từ mô hình raw_numbers:
+
+```bash
+python predict_255_unique_from_model.py
+```
+
+Script sẽ:
+- Tải mô hình raw_numbers mới nhất
+- Thực hiện dự đoán 255 số khác nhau hoàn toàn
+- Sử dụng temperature scaling cao (3.0) và top-10 sampling
+- Lưu kết quả vào file `255numbers.txt` với định dạng: số cách nhau bởi dấu phẩy, không khoảng trắng
+
+### 5. Test mô hình raw_numbers
 
 Test mô hình với 255 dự đoán:
 
@@ -89,7 +102,8 @@ Script sẽ:
 
 ```
 ├── lottery_prediction_model.py    # Script huấn luyện chính (chỉ raw_numbers)
-├── predict_lottery.py             # Script dự đoán (255 số)
+├── predict_lottery.py             # Script dự đoán cơ bản
+├── predict_255_unique_from_model.py  # Script dự đoán 255 số khác nhau
 ├── check_models.py                # Script kiểm tra mô hình
 ├── test_raw_numbers_model.py      # Script test mô hình raw_numbers
 ├── requirements.txt               # Dependencies
@@ -97,6 +111,7 @@ Script sẽ:
 ├── README.md                     # Hướng dẫn này
 ├── lottery_model_raw_numbers_*.keras  # Mô hình raw_numbers (định dạng mới)
 ├── lottery_model_raw_numbers_*_scaler.npy  # Scaler tương ứng
+├── 255numbers.txt                # Kết quả dự đoán 255 số khác nhau
 ```
 
 ## Cấu hình mô hình
@@ -104,33 +119,37 @@ Script sẽ:
 ### Tham số có thể điều chỉnh:
 
 - `SEQUENCE_LENGTH`: Độ dài chuỗi đầu vào (mặc định: 10)
-- `EPOCHS`: Số epoch huấn luyện (mặc định: 100)
+- `EPOCHS`: Số epoch huấn luyện (mặc định: 100, giảm xuống 80 cho raw_numbers)
 - `BATCH_SIZE`: Kích thước batch (mặc định: 32)
-- `lstm_units`: Số units trong LSTM layers (mặc định: 128)
-- `dropout_rate`: Tỷ lệ dropout (mặc định: 0.3)
+- `lstm_units`: Số units trong LSTM layers (mặc định: 96 cho raw_numbers)
+- `dropout_rate`: Tỷ lệ dropout (mặc định: 0.4 cho raw_numbers)
+- `temperature`: Temperature scaling cho dự đoán (mặc định: 3.0)
+- `top_k`: Số predictions top-k cho sampling (mặc định: 10)
 
-### Kiến trúc mô hình:
+### Kiến trúc mô hình raw_numbers:
 
 ```
-Input (sequence_length, features)
+Input (10, 1) - Chuỗi 10 số gần nhất
     ↓
-LSTM(128, return_sequences=True)
+GaussianNoise(0.05) - Thêm noise nhẹ
     ↓
-Dropout(0.3)
+LSTM(96, return_sequences=True) + L2 regularization
     ↓
-LSTM(64, return_sequences=True)
+Dropout(0.4) + BatchNormalization
     ↓
-Dropout(0.3)
+LSTM(48, return_sequences=True) + L2 regularization
     ↓
-LSTM(32)
+Dropout(0.4) + BatchNormalization
     ↓
-Dropout(0.3)
+LSTM(24) + L2 regularization
     ↓
-Dense(64, activation='relu')
+Dropout(0.4) + BatchNormalization
     ↓
-Dropout(0.3)
+Dense(48, activation='relu') + L2 regularization
     ↓
-Dense(output_shape, activation='softmax')
+Dropout(0.4) + BatchNormalization
+    ↓
+Dense(1000, activation='softmax') - 1000 số từ 000-999
 ```
 
 ## Loại dự đoán
@@ -168,17 +187,20 @@ Giảm `batch_size` hoặc `sequence_length` nếu gặp lỗi out of memory.
 - Số có đúng 3 chữ số
 - Không có ký tự đặc biệt
 
-### 4. Mô hình counts dự đoán lặp lại
-Nếu mô hình counts chỉ dự đoán một chữ số:
-- Chạy `python debug_counts.py` để phân tích dữ liệu
-- Huấn luyện lại với regularization mạnh hơn
-- Sử dụng data augmentation và temperature scaling
+### 4. Mô hình raw_numbers dự đoán lặp lại
+Nếu mô hình raw_numbers dự đoán lặp lại nhiều:
+- Sử dụng `python predict_255_unique_from_model.py` để đảm bảo 255 số khác nhau
+- Tăng temperature scaling (từ 1.5 lên 3.0)
+- Tăng top-k sampling (từ top-5 lên top-10)
+- Sử dụng data augmentation và regularization mạnh hơn
 
 ## Hiệu suất
 
-- **Thời gian huấn luyện:** Khoảng 10-30 phút tùy thuộc vào phần cứng
+- **Thời gian huấn luyện:** Khoảng 5-15 phút cho mô hình raw_numbers
 - **Độ chính xác:** Thường đạt 15-25% trên validation set
-- **Kích thước mô hình:** Khoảng 2-5 MB mỗi file .keras
+- **Kích thước mô hình:** Khoảng 1.5-2 MB cho file .keras
+- **Thời gian dự đoán:** Khoảng 1-2 phút cho 255 số khác nhau
+- **Tính đa dạng:** Đảm bảo 255 số khác nhau hoàn toàn (100%)
 
 ## Đóng góp
 
@@ -187,6 +209,8 @@ Nếu mô hình counts chỉ dự đoán một chữ số:
 - Thử nghiệm kiến trúc khác (GRU, Transformer)
 - Sử dụng ensemble methods
 - Tối ưu hóa hyperparameters
+- Cải thiện temperature scaling và top-k sampling
+- Thêm data augmentation techniques mới
 
 ## License
 
