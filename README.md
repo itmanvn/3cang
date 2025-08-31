@@ -16,13 +16,28 @@ Hệ thống dự đoán số xổ số sử dụng Recurrent Neural Network (RN
 
 ## Cài đặt
 
-1. **Cài đặt Python dependencies:**
+### 1. Clone repository và submodule
+
+```bash
+# Clone repository chính
+git clone https://github.com/your-username/3cang.git
+cd 3cang
+
+# Clone và cập nhật submodule vietnam-lottery-xsmb-analysis
+git submodule update --init --recursive
+```
+
+**Lưu ý quan trọng:** Repository này sử dụng git submodule để quản lý dự án `vietnam-lottery-xsmb-analysis`. Đảm bảo bạn đã clone đầy đủ submodule để script `fetch.py` hoạt động chính xác.
+
+### 2. Cài đặt Python dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-2. **Kiểm tra file dữ liệu:**
+### 3. Kiểm tra file dữ liệu
    - Đảm bảo file `data-dacbiet.txt` chứa dữ liệu xổ số (mỗi dòng một số 3 chữ số)
+   - Đảm bảo thư mục `vietnam-lottery-xsmb-analysis` đã được clone đầy đủ
 
 ## Sử dụng
 
@@ -84,7 +99,22 @@ Script sẽ:
 - Sử dụng temperature scaling cao (3.0) và top-10 sampling
 - Lưu kết quả vào file `255numbers.txt` với định dạng: số cách nhau bởi dấu phẩy, không khoảng trắng
 
-### 5. Test mô hình raw_numbers
+### 5. Lấy kết quả xổ số và cập nhật dữ liệu
+
+Lấy kết quả xổ số mới nhất và cập nhật vào file dữ liệu:
+
+```bash
+python fetch.py
+```
+
+Script sẽ:
+- **Bước 1:** Chạy script `fetch.py` trong `vietnam-lottery-xsmb-analysis/src` để fetch dữ liệu mới
+- **Bước 2:** Đọc dữ liệu từ `vietnam-lottery-xsmb-analysis/data/xsmb.json` (đã được cập nhật)
+- **Bước 3:** Trích xuất 3 số cuối của giải đặc biệt từ tất cả bản ghi
+- **Bước 4:** Cập nhật file `data-dacbiet.txt` với các số mới (nếu có)
+- **Kết quả:** Đồng bộ dữ liệu giữa `xsmb.json` và `data-dacbiet.txt`
+
+### 6. Test mô hình raw_numbers
 
 Test mô hình với 255 dự đoán:
 
@@ -98,12 +128,14 @@ Script sẽ:
 - Kiểm tra tính đa dạng của dự đoán
 - Lưu kết quả vào file `predictions_255_numbers.txt`
 
-## Cấu trúc file
+## Cấu trúc repository
 
 ```
+3cang/
 ├── lottery_prediction_model.py    # Script huấn luyện chính (chỉ raw_numbers)
 ├── predict_lottery.py             # Script dự đoán cơ bản
 ├── predict_255_unique_from_model.py  # Script dự đoán 255 số khác nhau
+├── fetch.py                      # Script lấy kết quả xổ số và cập nhật dữ liệu
 ├── check_models.py                # Script kiểm tra mô hình
 ├── test_raw_numbers_model.py      # Script test mô hình raw_numbers
 ├── requirements.txt               # Dependencies
@@ -112,7 +144,17 @@ Script sẽ:
 ├── lottery_model_raw_numbers_*.keras  # Mô hình raw_numbers (định dạng mới)
 ├── lottery_model_raw_numbers_*_scaler.npy  # Scaler tương ứng
 ├── 255numbers.txt                # Kết quả dự đoán 255 số khác nhau
+├── .gitmodules                   # Cấu hình git submodule
+└── vietnam-lottery-xsmb-analysis/  # Git submodule (dữ liệu xổ số)
+    ├── src/
+    │   ├── lottery.py            # Module xử lý dữ liệu xổ số
+    │   └── fetch.py              # Script fetch dữ liệu từ web
+    ├── data/
+    │   └── xsmb.json             # Dữ liệu xổ số gốc
+    └── README.md                 # Hướng dẫn submodule
 ```
+
+**Lưu ý:** Thư mục `vietnam-lottery-xsmb-analysis` là một git submodule chứa dữ liệu xổ số và các script xử lý dữ liệu. Script `fetch.py` trong thư mục gốc sẽ gọi script trong submodule này để cập nhật dữ liệu.
 
 ## Cấu hình mô hình
 
@@ -201,6 +243,57 @@ Nếu mô hình raw_numbers dự đoán lặp lại nhiều:
 - **Kích thước mô hình:** Khoảng 1.5-2 MB cho file .keras
 - **Thời gian dự đoán:** Khoảng 1-2 phút cho 255 số khác nhau
 - **Tính đa dạng:** Đảm bảo 255 số khác nhau hoàn toàn (100%)
+
+## Quản lý Git Submodule
+
+### Cập nhật submodule
+
+```bash
+# Cập nhật submodule lên phiên bản mới nhất
+git submodule update --remote
+
+# Hoặc cập nhật submodule cụ thể
+cd vietnam-lottery-xsmb-analysis
+git pull origin main
+cd ..
+git add vietnam-lottery-xsmb-analysis
+git commit -m "Update vietnam-lottery-xsmb-analysis submodule"
+```
+
+### Clone repository với submodule
+
+```bash
+# Clone với submodule (khuyến nghị)
+git clone --recurse-submodules https://github.com/your-username/3cang.git
+
+# Hoặc clone riêng lẻ
+git clone https://github.com/your-username/3cang.git
+cd 3cang
+git submodule init
+git submodule update
+```
+
+### Kiểm tra trạng thái submodule
+
+```bash
+# Xem trạng thái submodule
+git submodule status
+
+# Xem thông tin chi tiết
+git submodule foreach git status
+```
+
+### Xử lý lỗi submodule
+
+Nếu gặp lỗi với submodule:
+```bash
+# Xóa và clone lại submodule
+rm -rf vietnam-lottery-xsmb-analysis
+git submodule update --init --recursive
+
+# Hoặc reset submodule về trạng thái commit
+git submodule update --force --recursive
+```
 
 ## Đóng góp
 
