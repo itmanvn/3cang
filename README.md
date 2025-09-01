@@ -33,6 +33,8 @@ git submodule update --init --recursive
 
 ```bash
 pip install -r requirements.txt
+cd vietnam-lottery-xsmb-analysis
+pip install -r requirements.txt
 ```
 
 ### 3. Kiểm tra file dữ liệu
