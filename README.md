@@ -43,7 +43,22 @@ pip install -r requirements.txt
 
 ## Sử dụng
 
-### 1. Huấn luyện mô hình
+### 1. Lấy kết quả xổ số và cập nhật dữ liệu
+
+Lấy kết quả xổ số mới nhất và cập nhật vào file dữ liệu:
+
+```bash
+python fetch.py
+```
+
+Script sẽ:
+- **Bước 1:** Chạy script `fetch.py` trong `vietnam-lottery-xsmb-analysis/src` để fetch dữ liệu mới
+- **Bước 2:** Đọc dữ liệu từ `vietnam-lottery-xsmb-analysis/data/xsmb.json` (đã được cập nhật)
+- **Bước 3:** Trích xuất 3 số cuối của giải đặc biệt từ tất cả bản ghi
+- **Bước 4:** Cập nhật file `data-dacbiet.txt` với các số mới (nếu có)
+- **Kết quả:** Đồng bộ dữ liệu giữa `xsmb.json` và `data-dacbiet.txt`
+
+### 2. Huấn luyện mô hình
 
 Chạy script chính để huấn luyện mô hình raw_numbers:
 
@@ -59,7 +74,7 @@ Script sẽ:
 - Lưu scaler tương ứng để sử dụng dự đoán
 - Thực hiện dự đoán 255 số mẫu
 
-### 2. Kiểm tra mô hình đã huấn luyện
+### 3. Kiểm tra mô hình đã huấn luyện
 
 Kiểm tra trạng thái các mô hình:
 
@@ -73,7 +88,7 @@ Script sẽ:
 - Xác minh scaler tương ứng
 - Kiểm tra file dữ liệu
 
-### 3. Dự đoán sử dụng mô hình đã huấn luyện
+### 4. Dự đoán sử dụng mô hình đã huấn luyện
 
 Sau khi huấn luyện xong, sử dụng script dự đoán:
 
@@ -87,7 +102,7 @@ Script sẽ:
 - Thực hiện dự đoán
 - Hiển thị kết quả chi tiết
 
-### 4. Dự đoán 255 số khác nhau từ mô hình
+### 5. Dự đoán 255 số khác nhau từ mô hình
 
 Dự đoán 255 số khác nhau hoàn toàn từ mô hình raw_numbers:
 
@@ -100,21 +115,6 @@ Script sẽ:
 - Thực hiện dự đoán 255 số khác nhau hoàn toàn
 - Sử dụng temperature scaling cao (3.0) và top-10 sampling
 - Lưu kết quả vào file `255numbers.txt` với định dạng: số cách nhau bởi dấu phẩy, không khoảng trắng
-
-### 5. Lấy kết quả xổ số và cập nhật dữ liệu
-
-Lấy kết quả xổ số mới nhất và cập nhật vào file dữ liệu:
-
-```bash
-python fetch.py
-```
-
-Script sẽ:
-- **Bước 1:** Chạy script `fetch.py` trong `vietnam-lottery-xsmb-analysis/src` để fetch dữ liệu mới
-- **Bước 2:** Đọc dữ liệu từ `vietnam-lottery-xsmb-analysis/data/xsmb.json` (đã được cập nhật)
-- **Bước 3:** Trích xuất 3 số cuối của giải đặc biệt từ tất cả bản ghi
-- **Bước 4:** Cập nhật file `data-dacbiet.txt` với các số mới (nếu có)
-- **Kết quả:** Đồng bộ dữ liệu giữa `xsmb.json` và `data-dacbiet.txt`
 
 ### 6. Test mô hình raw_numbers
 
