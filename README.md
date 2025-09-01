@@ -20,7 +20,7 @@ Hệ thống dự đoán số xổ số sử dụng Recurrent Neural Network (RN
 
 ```bash
 # Clone repository chính
-git clone https://github.com/your-username/3cang.git
+git clone https://github.com/itmanvn/3cang.git
 cd 3cang
 
 # Clone và cập nhật submodule vietnam-lottery-xsmb-analysis
@@ -304,6 +304,7 @@ git submodule update --force --recursive
 - Tối ưu hóa hyperparameters
 - Cải thiện temperature scaling và top-k sampling
 - Thêm data augmentation techniques mới
+- Tham khao: https://www.beatlottery.co.uk/lottery-predictions
 
 ## License
 
