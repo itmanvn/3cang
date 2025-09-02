@@ -127,19 +127,6 @@ Script sẽ:
 - Sử dụng temperature scaling cao (3.0) và top-10 sampling
 - Lưu kết quả vào file `data-predict.json` với định dạng JSON
 
-### 6. Cập nhật README.md tự động
-
-Cập nhật phần dự đoán trong README.md từ dữ liệu đã có:
-
-```bash
-python update_readme.py
-```
-
-Script sẽ:
-- Đọc dữ liệu dự đoán mới nhất từ `data-predict.json`
-- Tự động cập nhật phần "Dự đoán ngày" trong README.md
-- Thay thế 255 số đặc biệt với dữ liệu mới nhất
-
 ## Cấu trúc repository
 
 ```
