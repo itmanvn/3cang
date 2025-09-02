@@ -11,7 +11,7 @@ import os
 import glob
 import random
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def load_recent_data(data_file="data-dacbiet.txt", num_recent=10):
     """Đọc dữ liệu gần nhất từ file"""
@@ -117,31 +117,12 @@ def predict_255_unique_numbers(model_path, scaler_path, recent_data):
         print(f"❌ Lỗi: {str(e)}")
         return []
 
-def save_to_file(numbers, filename="255numbers.txt"):
-    """Lưu số vào file với định dạng yêu cầu"""
-    print(f"💾 Đang lưu vào file: {filename}")
-    
-    # Chuyển đổi sang định dạng 3 chữ số và nối bằng dấu phẩy
-    formatted_numbers = [f"{num:03d}" for num in numbers]
-    content = ",".join(formatted_numbers)
-    
-    # Lưu vào file
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(content)
-    
-    print(f"✅ Đã lưu thành công vào file: {filename}")
-    print(f"📏 Kích thước file: {len(content)} ký tự")
-    
-    # Hiển thị 10 số đầu và 10 số cuối để kiểm tra
-    print(f"\n📊 10 số đầu tiên: {','.join(formatted_numbers[:10])}")
-    print(f"📊 10 số cuối cùng: {','.join(formatted_numbers[-10:])}")
-
 def save_to_json(numbers, filename="data-predict.json"):
     """Lưu số vào file JSON với ngày hiện tại (mỗi ngày chỉ lưu 1 lần)"""
     print(f"💾 Đang lưu vào file JSON: {filename}")
     
-    # Lấy ngày hiện tại (chỉ lấy ngày, không lấy giờ)
-    current_date = datetime.now()
+    # Lấy ngày hôm sau (chỉ lấy ngày, không lấy giờ)
+    current_date = datetime.now() + timedelta(days=1)
     date_str = current_date.strftime("%Y-%m-%d")
     
     # Tạo dữ liệu mới (chỉ lưu formatted_numbers)
