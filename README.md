@@ -99,7 +99,28 @@ Script sẽ:
 - Xác minh scaler tương ứng
 - Kiểm tra file dữ liệu
 
-### 4. Dự đoán sử dụng mô hình đã huấn luyện
+### 4. Dọn dẹp model cũ
+
+Dọn dẹp các model cũ để tiết kiệm dung lượng:
+
+```bash
+# Dọn dẹp tất cả model cũ (giữ lại model mới nhất)
+python cleanup_models.py
+
+# Xóa tất cả model
+python cleanup_models.py --all
+
+# Dọn dẹp model raw_numbers cũ
+python cleanup_models.py --raw_numbers
+```
+
+Script sẽ:
+- Tự động xóa model cũ sau khi train thành công
+- Chỉ giữ lại model mới nhất
+- Hiển thị danh sách file sẽ xóa
+- Xác nhận trước khi xóa
+
+### 5. Dự đoán sử dụng mô hình đã huấn luyện
 
 Sau khi huấn luyện xong, sử dụng script dự đoán:
 
@@ -113,7 +134,7 @@ Script sẽ:
 - Thực hiện dự đoán
 - Hiển thị kết quả chi tiết
 
-### 5. Dự đoán 255 số khác nhau từ mô hình
+### 6. Dự đoán 255 số khác nhau từ mô hình
 
 Dự đoán 255 số khác nhau hoàn toàn từ mô hình raw_numbers:
 
@@ -125,9 +146,9 @@ Script sẽ:
 - Tải mô hình raw_numbers mới nhất
 - Thực hiện dự đoán 255 số khác nhau hoàn toàn
 - Sử dụng temperature scaling cao (3.0) và top-10 sampling
-- Lưu kết quả vào file `255numbers.txt` với định dạng: số cách nhau bởi dấu phẩy, không khoảng trắng
+- Lưu kết quả vào file `data-predict.json` với định dạng JSON
 
-### 6. Test mô hình raw_numbers
+### 7. Test mô hình raw_numbers
 
 Test mô hình với 255 dự đoán:
 
@@ -150,13 +171,15 @@ Script sẽ:
 ├── predict_255_unique_from_model.py  # Script dự đoán 255 số khác nhau
 ├── fetch.py                      # Script lấy kết quả xổ số và cập nhật dữ liệu
 ├── check_models.py                # Script kiểm tra mô hình
+├── cleanup_models.py              # Script dọn dẹp model cũ
 ├── test_raw_numbers_model.py      # Script test mô hình raw_numbers
 ├── requirements.txt               # Dependencies
 ├── data-dacbiet.txt              # Dữ liệu xổ số
+├── data-predict.json             # Kết quả dự đoán 255 số (JSON)
+├── results.json                  # Kết quả kiểm tra dự đoán
 ├── README.md                     # Hướng dẫn này
 ├── lottery_model_raw_numbers_*.keras  # Mô hình raw_numbers (định dạng mới)
 ├── lottery_model_raw_numbers_*_scaler.npy  # Scaler tương ứng
-├── 255numbers.txt                # Kết quả dự đoán 255 số khác nhau
 ├── .gitmodules                   # Cấu hình git submodule
 └── vietnam-lottery-xsmb-analysis/  # Git submodule (dữ liệu xổ số)
     ├── src/

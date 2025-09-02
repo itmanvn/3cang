@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 import os
+import glob
 from datetime import datetime
 
 warnings.filterwarnings('ignore')
@@ -432,6 +433,56 @@ class LotteryLSTMModel:
         plt.tight_layout()
         plt.show()
 
+def cleanup_old_models(model_type, keep_latest=True):
+    """Xóa các model cũ, chỉ giữ lại model mới nhất"""
+    print(f"\n🧹 Đang dọn dẹp model cũ cho {model_type}...")
+    
+    try:
+        # Tìm tất cả file model và scaler
+        model_pattern = f"lottery_model_{model_type}_*.keras"
+        scaler_pattern = f"lottery_model_{model_type}_*_scaler.npy"
+        
+        model_files = glob.glob(model_pattern)
+        scaler_files = glob.glob(scaler_pattern)
+        
+        print(f"📁 Tìm thấy {len(model_files)} file model và {len(scaler_files)} file scaler")
+        
+        if len(model_files) <= 1:
+            print("✅ Chỉ có 1 model hoặc không có model, không cần dọn dẹp")
+            return
+        
+        # Sắp xếp theo thời gian tạo (mới nhất trước)
+        model_files.sort(key=os.path.getmtime, reverse=True)
+        scaler_files.sort(key=os.path.getmtime, reverse=True)
+        
+        # Xóa tất cả model cũ (trừ model mới nhất nếu keep_latest=True)
+        files_to_delete = []
+        
+        if keep_latest:
+            # Giữ lại model mới nhất
+            files_to_delete.extend(model_files[1:])
+            files_to_delete.extend(scaler_files[1:])
+            print(f"📌 Giữ lại model mới nhất: {os.path.basename(model_files[0])}")
+        else:
+            # Xóa tất cả
+            files_to_delete.extend(model_files)
+            files_to_delete.extend(scaler_files)
+        
+        # Xóa các file
+        deleted_count = 0
+        for file_path in files_to_delete:
+            try:
+                os.remove(file_path)
+                print(f"🗑️  Đã xóa: {os.path.basename(file_path)}")
+                deleted_count += 1
+            except Exception as e:
+                print(f"❌ Không thể xóa {os.path.basename(file_path)}: {str(e)}")
+        
+        print(f"✅ Đã xóa {deleted_count} file cũ")
+        
+    except Exception as e:
+        print(f"❌ Lỗi khi dọn dẹp model cũ: {str(e)}")
+
 class LotteryPredictor:
     """Lớp dự đoán xổ số"""
     
@@ -644,6 +695,9 @@ def main():
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             model_filename = f"lottery_model_{pred_type}_{timestamp}.keras"
             model_builder.save_model(model_filename)
+            
+            # Dọn dẹp model cũ sau khi train thành công
+            cleanup_old_models(pred_type, keep_latest=True)
             
             # Vẽ biểu đồ
             model_builder.plot_training_history()
