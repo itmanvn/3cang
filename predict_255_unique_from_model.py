@@ -10,6 +10,8 @@ from sklearn.preprocessing import MinMaxScaler
 import os
 import glob
 import random
+import json
+from datetime import datetime
 
 def load_recent_data(data_file="data-dacbiet.txt", num_recent=10):
     """Đọc dữ liệu gần nhất từ file"""
@@ -134,6 +136,96 @@ def save_to_file(numbers, filename="255numbers.txt"):
     print(f"\n📊 10 số đầu tiên: {','.join(formatted_numbers[:10])}")
     print(f"📊 10 số cuối cùng: {','.join(formatted_numbers[-10:])}")
 
+def save_to_json(numbers, filename="data-predict.json"):
+    """Lưu số vào file JSON với ngày hiện tại (mỗi ngày chỉ lưu 1 lần)"""
+    print(f"💾 Đang lưu vào file JSON: {filename}")
+    
+    # Lấy ngày hiện tại (chỉ lấy ngày, không lấy giờ)
+    current_date = datetime.now()
+    date_str = current_date.strftime("%Y-%m-%d")
+    
+    # Tạo dữ liệu mới (chỉ lưu formatted_numbers)
+    formatted_numbers = [f"{num:03d}" for num in numbers]
+    new_data = {
+        "date": date_str,
+        "timestamp": current_date.timestamp(),
+        "total_numbers": len(numbers),
+        "formatted_numbers": formatted_numbers,
+        "model_info": {
+            "type": "raw_numbers",
+            "temperature": 3.0,
+            "top_k": 10,
+            "unique_count": len(set(numbers))
+        }
+    }
+    
+    # Kiểm tra file hiện tại
+    if os.path.exists(filename):
+        print("📚 Đang đọc file JSON hiện tại...")
+        with open(filename, 'r', encoding='utf-8') as f:
+            current_data = json.load(f)
+        
+        # Kiểm tra cấu trúc và thêm dữ liệu mới
+        if isinstance(current_data, dict) and "predictions" in current_data:
+            # Kiểm tra xem ngày hôm nay đã có dữ liệu chưa
+            today_exists = False
+            for pred in current_data["predictions"]:
+                if pred.get("date") == date_str:
+                    today_exists = True
+                    break
+            
+            if today_exists:
+                print(f"⚠️  Ngày {date_str} đã có dữ liệu, không lưu trùng lặp!")
+                print("📅 Danh sách các ngày có dữ liệu:")
+                for i, pred in enumerate(current_data["predictions"], 1):
+                    print(f"   {i}. {pred['date']} - {pred['total_numbers']} số")
+                return
+            
+            # Thêm dữ liệu mới
+            current_data["predictions"].append(new_data)
+            final_data = current_data
+            print("📝 Thêm vào danh sách predictions hiện có...")
+        elif isinstance(current_data, dict) and "date" in current_data:
+            # Chuyển từ single record sang predictions array
+            final_data = {
+                "predictions": [current_data, new_data]
+            }
+            print("📝 Chuyển đổi từ single record sang multiple records...")
+        else:
+            # Tạo mới
+            final_data = {
+                "predictions": [new_data]
+            }
+            print("📝 Tạo cấu trúc mới...")
+    else:
+        # Tạo file mới
+        final_data = {
+            "predictions": [new_data]
+        }
+        print("📝 Tạo file JSON mới...")
+    
+    # Lưu vào file JSON
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(final_data, f, ensure_ascii=False, indent=2)
+    
+    print(f"✅ Đã lưu thành công vào file JSON: {filename}")
+    print(f"📅 Ngày tạo: {date_str}")
+    print(f"📊 Tổng số: {len(numbers)}")
+    print(f"🔢 Số khác nhau: {len(set(numbers))}")
+    
+    # Hiển thị 10 số đầu và cuối để kiểm tra
+    print(f"\n📊 10 số đầu tiên: {','.join(formatted_numbers[:10])}")
+    print(f"📊 10 số cuối cùng: {','.join(formatted_numbers[-10:])}")
+    
+    # Hiển thị tổng số bản ghi
+    total_predictions = len(final_data["predictions"])
+    print(f"\n📈 Tổng số bản ghi trong file: {total_predictions}")
+    
+    # Hiển thị danh sách các ngày
+    print("📅 Danh sách các ngày có dữ liệu:")
+    for i, pred in enumerate(final_data["predictions"], 1):
+        print(f"   {i}. {pred['date']} - {pred['total_numbers']} số")
+
 def main():
     """Hàm chính"""
     print("=== DỰ ĐOÁN 255 SỐ TỪ MÔ HÌNH RAW_NUMBERS ===\n")
@@ -166,14 +258,15 @@ def main():
         predictions = predict_255_unique_numbers(latest_model, scaler_path, recent_data)
         
         if len(predictions) == 255:
-            # Lưu vào file
-            save_to_file(predictions, "255numbers.txt")
+            # Chỉ lưu vào file JSON (không tạo file .txt)
+            save_to_json(predictions, "data-predict.json")
             
             print(f"\n{'='*60}")
             print("🎯 HOÀN THÀNH!")
             print("✅ 255 số khác nhau đã được dự đoán từ mô hình raw_numbers")
-            print("✅ Đã lưu vào file: 255numbers.txt")
-            print("✅ Định dạng: số cách nhau bởi dấu phẩy, không khoảng trắng")
+            print("✅ Đã lưu vào file: data-predict.json")
+            print("✅ Dữ liệu cũ được giữ nguyên")
+            print("✅ Chỉ lưu định dạng JSON, không tạo file .txt")
             print(f"{'='*60}")
         else:
             print(f"\n❌ Không thể dự đoán đủ 255 số khác nhau")
