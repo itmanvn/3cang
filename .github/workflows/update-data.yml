@@ -12,7 +12,7 @@ jobs:
       - name: checkout repo content
         uses: actions/checkout@v4
         with:
-         submodules: true
+         submodules: recursive
 
       - name: setup python
         uses: actions/setup-python@v5
