@@ -11,8 +11,11 @@ jobs:
     steps:
       - name: checkout repo content
         uses: actions/checkout@v4
+      
+      - name: checkout all the submodules
+        uses: actions/checkout@v4
         with:
-         submodules: recursive
+          submodules: recursive
 
       - name: setup python
         uses: actions/setup-python@v5
