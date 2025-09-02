@@ -99,28 +99,7 @@ Script sẽ:
 - Xác minh scaler tương ứng
 - Kiểm tra file dữ liệu
 
-### 4. Dọn dẹp model cũ
-
-Dọn dẹp các model cũ để tiết kiệm dung lượng:
-
-```bash
-# Dọn dẹp tất cả model cũ (giữ lại model mới nhất)
-python cleanup_models.py
-
-# Xóa tất cả model
-python cleanup_models.py --all
-
-# Dọn dẹp model raw_numbers cũ
-python cleanup_models.py --raw_numbers
-```
-
-Script sẽ:
-- Tự động xóa model cũ sau khi train thành công
-- Chỉ giữ lại model mới nhất
-- Hiển thị danh sách file sẽ xóa
-- Xác nhận trước khi xóa
-
-### 5. Dự đoán sử dụng mô hình đã huấn luyện
+### 4. Dự đoán sử dụng mô hình đã huấn luyện
 
 Sau khi huấn luyện xong, sử dụng script dự đoán:
 
@@ -134,7 +113,7 @@ Script sẽ:
 - Thực hiện dự đoán
 - Hiển thị kết quả chi tiết
 
-### 6. Dự đoán 255 số khác nhau từ mô hình
+### 5. Dự đoán 255 số khác nhau từ mô hình
 
 Dự đoán 255 số khác nhau hoàn toàn từ mô hình raw_numbers:
 
@@ -148,7 +127,7 @@ Script sẽ:
 - Sử dụng temperature scaling cao (3.0) và top-10 sampling
 - Lưu kết quả vào file `data-predict.json` với định dạng JSON
 
-### 7. Cập nhật README.md tự động
+### 6. Cập nhật README.md tự động
 
 Cập nhật phần dự đoán trong README.md từ dữ liệu đã có:
 
@@ -161,46 +140,6 @@ Script sẽ:
 - Tự động cập nhật phần "Dự đoán ngày" trong README.md
 - Thay thế 255 số đặc biệt với dữ liệu mới nhất
 
-### 8. Tự động hóa toàn bộ quy trình
-
-Chạy toàn bộ quy trình từ dự đoán đến cập nhật README:
-
-```bash
-python auto_update_predictions.py
-```
-
-Script sẽ:
-- Tự động chạy dự đoán 255 số từ mô hình
-- Tự động cập nhật README.md
-- Kiểm tra và báo cáo kết quả
-
-### 9. Cập nhật nhanh README.md
-
-Cập nhật nhanh README.md khi đã có dữ liệu dự đoán:
-
-```bash
-python quick_update_readme.py
-```
-
-Script sẽ:
-- Kiểm tra file `data-predict.json` có tồn tại
-- Chạy script cập nhật README.md
-- Báo cáo kết quả
-
-### 10. Test mô hình raw_numbers
-
-Test mô hình với 255 dự đoán:
-
-```bash
-python test_raw_numbers_model.py
-```
-
-Script sẽ:
-- Tải mô hình raw_numbers mới nhất
-- Thực hiện dự đoán 255 số
-- Kiểm tra tính đa dạng của dự đoán
-- Lưu kết quả vào file `predictions_255_numbers.txt`
-
 ## Cấu trúc repository
 
 ```
@@ -209,12 +148,9 @@ Script sẽ:
 ├── predict_lottery.py             # Script dự đoán cơ bản
 ├── predict_255_unique_from_model.py  # Script dự đoán 255 số khác nhau
 ├── update_readme.py               # Script cập nhật README.md tự động
-├── auto_update_predictions.py     # Script tự động hóa toàn bộ quy trình
-├── quick_update_readme.py         # Script cập nhật nhanh README.md
 ├── fetch.py                      # Script lấy kết quả xổ số và cập nhật dữ liệu
 ├── check_models.py                # Script kiểm tra mô hình
 ├── cleanup_models.py              # Script dọn dẹp model cũ
-├── test_raw_numbers_model.py      # Script test mô hình raw_numbers
 ├── requirements.txt               # Dependencies
 ├── data-dacbiet.txt              # Dữ liệu xổ số
 ├── data-predict.json             # Kết quả dự đoán 255 số (JSON)
@@ -382,7 +318,7 @@ git submodule update --force --recursive
 - Tối ưu hóa hyperparameters
 - Cải thiện temperature scaling và top-k sampling
 - Thêm data augmentation techniques mới
-- Tham khao: https://www.beatlottery.co.uk/lottery-predictions
+- Tham khảo thêm: https://www.beatlottery.co.uk/lottery-predictions
 
 ## License
 
