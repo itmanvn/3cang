@@ -1,6 +1,6 @@
-# Mô hình dự đoán xổ số sử dụng RNN-LSTM
+# Hệ thống dự đoán 3 càng đặc biệt xổ số miền Bắc
 
-Hệ thống dự đoán số xổ số sử dụng Recurrent Neural Network (RNN) với Long Short-Term Memory (LSTM) layers, được xây dựng bằng TensorFlow/Keras.
+Mô hình dự đoán số xổ số sử dụng Recurrent Neural Network (RNN) với Long Short-Term Memory (LSTM) layers, được xây dựng bằng TensorFlow/Keras.
 
 ## Dự đoán ngày 04/09/2025
 
