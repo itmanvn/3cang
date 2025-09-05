@@ -72,10 +72,30 @@ def read_results_from_json():
         print(f"❌ Lỗi khi đọc file results.json: {str(e)}")
         return []
 
+def read_prize6_results_from_json():
+    """Đọc kết quả dự đoán giải 6 từ results-giai6.json"""
+    if not os.path.exists("results-giai6.json"):
+        print("⚠️  Không tìm thấy file results-giai6.json")
+        return []
+    
+    try:
+        with open("results-giai6.json", 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        if "results" in data and data["results"]:
+            return data["results"]
+        else:
+            print("⚠️  Không có dữ liệu kết quả giải 6 trong file")
+            return []
+            
+    except Exception as e:
+        print(f"❌ Lỗi khi đọc file results-giai6.json: {str(e)}")
+        return []
+
 def format_results_for_readme(results, max_days=7):
     """Format kết quả thành chuỗi cho README"""
     if not results:
-        return "- **7 ngày gần nhất:**\n  - Chưa có dữ liệu kết quả"
+        return "- **3 càng đặc biệt:**\n  - Chưa có dữ liệu kết quả"
     
     # Sắp xếp theo ngày (mới nhất trước)
     sorted_results = sorted(results, key=lambda x: x.get("date", ""), reverse=True)
@@ -83,7 +103,7 @@ def format_results_for_readme(results, max_days=7):
     # Lấy tối đa max_days kết quả
     recent_results = sorted_results[:max_days]
     
-    results_text = "- **7 ngày gần nhất:**\n"
+    results_text = "- **3 càng đặc biệt:**\n"
     
     for result in recent_results:
         date_str = result.get("date", "")
@@ -106,6 +126,45 @@ def format_results_for_readme(results, max_days=7):
             status_icon = "❓ CHƯA RÕ"
         
         results_text += f"  - **{formatted_date}:** Số {special_number} - {status_icon}\n"
+    
+    return results_text.strip()
+
+def format_prize6_results_for_readme(results, max_days=7):
+    """Format kết quả giải 6 thành chuỗi cho README"""
+    if not results:
+        return "- **3 càng đầu:**\n  - Chưa có dữ liệu kết quả"
+    
+    # Sắp xếp theo ngày (mới nhất trước)
+    sorted_results = sorted(results, key=lambda x: x.get("date", ""), reverse=True)
+    
+    # Lấy tối đa max_days kết quả
+    recent_results = sorted_results[:max_days]
+    
+    results_text = "- **3 càng đầu:**\n"
+    
+    for result in recent_results:
+        date_str = result.get("date", "")
+        prize6_numbers = result.get("prize6_numbers", [])
+        trung = result.get("trung", 0)
+        trat = result.get("trat", 0)
+        
+        # Chuyển đổi ngày từ YYYY-MM-DD sang DD/MM/YYYY
+        try:
+            date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+            formatted_date = date_obj.strftime("%d/%m/%Y")
+        except:
+            formatted_date = date_str
+        
+        # Tạo chuỗi hiển thị các số giải 6
+        numbers_display = ", ".join(prize6_numbers) if prize6_numbers else "N/A"
+        
+        # Tạo status dựa trên số lượng trúng
+        if trung > 0:
+            status_icon = f"✅ TRÚNG {trung}/3"
+        else:
+            status_icon = "❌ TRẬT"
+        
+        results_text += f"  - **{formatted_date}:** Số {numbers_display} - {status_icon}\n"
     
     return results_text.strip()
 
@@ -192,24 +251,36 @@ def update_results_section(content):
     results = read_results_from_json()
     results_text = format_results_for_readme(results)
     
+    # Đọc kết quả giải 6 từ results-giai6.json
+    prize6_results = read_prize6_results_from_json()
+    prize6_text = format_prize6_results_for_readme(prize6_results)
+    
+    # Kết hợp cả hai phần kết quả
+    combined_results = results_text + "\n\n" + prize6_text
+    
     lines = content.split('\n')
     start_line = -1
     end_line = -1
     
     # Tìm dòng bắt đầu của phần kết quả
     for i, line in enumerate(lines):
-        if '- **7 ngày gần nhất:**' in line:
-            start_line = i
-            print(f"📝 Tìm thấy dòng bắt đầu kết quả: {i+1}: {line}")
+        if '## Kết quả dự đoán' in line:
+            # Tìm dòng có "- **3 càng đặc biệt:**" (bỏ qua dòng trống)
+            for j in range(i + 1, len(lines)):
+                if lines[j].strip() and '- **3 càng đặc biệt:**' in lines[j]:
+                    start_line = j
+                    print(f"📝 Tìm thấy dòng bắt đầu kết quả: {i+1}: {line}")
+                    print(f"📝 Dòng nội dung đầu tiên: {j+1}: '{lines[j]}'")
+                    break
             break
     
     if start_line == -1:
         print("⚠️  Không tìm thấy phần kết quả, bỏ qua cập nhật")
         return content
     
-    # Tìm dòng kết thúc (dòng trống hoặc dòng mới bắt đầu với ##)
+    # Tìm dòng kết thúc (dòng mới bắt đầu với ##)
     for i in range(start_line + 1, len(lines)):
-        if lines[i].strip() == '' or lines[i].startswith('##'):
+        if lines[i].startswith('##'):
             end_line = i
             print(f"📝 Tìm thấy dòng kết thúc kết quả: {i+1}")
             break
@@ -218,8 +289,8 @@ def update_results_section(content):
         end_line = len(lines)
     
     # Thay thế phần cũ
-    new_lines = lines[:start_line] + results_text.split('\n') + lines[end_line:]
-    print(f"✅ Đã cập nhật phần kết quả")
+    new_lines = lines[:start_line] + combined_results.split('\n') + lines[end_line:]
+    print(f"✅ Đã cập nhật phần kết quả (bao gồm giải 6)")
     print(f"📊 Thay thế kết quả từ dòng {start_line+1} đến {end_line}")
     
     return '\n'.join(new_lines)
@@ -262,7 +333,8 @@ def main():
     # Hiển thị thông tin kết quả
     results = read_results_from_json()
     if results:
-        print(f"\n📊 Kết quả dự đoán ({len(results)} ngày):")
+        display_count = min(7, len(results))
+        print(f"\n📊 Kết quả dự đoán đặc biệt ({display_count}/{len(results)} ngày gần nhất):")
         for result in results[:3]:  # Hiển thị 3 ngày gần nhất
             date_str = result.get("date", "")
             special_number = result.get("special_number", "")
@@ -277,7 +349,29 @@ def main():
             status_icon = "✅ TRÚNG" if status == "trúng" else "❌ TRẬT" if status == "trật" else "❓ CHƯA RÕ"
             print(f"  - {formatted_date_result}: Số {special_number} - {status_icon}")
     else:
-        print("\n⚠️  Chưa có dữ liệu kết quả")
+        print("\n⚠️  Chưa có dữ liệu kết quả đặc biệt")
+    
+    # Hiển thị thông tin kết quả giải 6
+    prize6_results = read_prize6_results_from_json()
+    if prize6_results:
+        display_count = min(7, len(prize6_results))
+        print(f"\n📊 Kết quả dự đoán giải 6 ({display_count}/{len(prize6_results)} ngày gần nhất):")
+        for result in prize6_results[:3]:  # Hiển thị 3 ngày gần nhất
+            date_str = result.get("date", "")
+            prize6_numbers = result.get("prize6_numbers", [])
+            trung = result.get("trung", 0)
+            
+            try:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                formatted_date_result = date_obj.strftime("%d/%m/%Y")
+            except:
+                formatted_date_result = date_str
+            
+            numbers_display = ", ".join(prize6_numbers) if prize6_numbers else "N/A"
+            status_icon = f"✅ TRÚNG {trung}/3" if trung > 0 else "❌ TRẬT"
+            print(f"  - {formatted_date_result}: Số {numbers_display} - {status_icon}")
+    else:
+        print("\n⚠️  Chưa có dữ liệu kết quả giải 6")
     
     # Cập nhật README
     if update_readme_section(formatted_date, numbers_str):
@@ -285,7 +379,8 @@ def main():
         print("🎯 HOÀN THÀNH!")
         print(f"✅ Đã cập nhật README.md với dự đoán ngày {formatted_date}")
         print(f"✅ 255 số đặc biệt đã được cập nhật")
-        print(f"✅ Phần kết quả đã được cập nhật từ results.json")
+        print(f"✅ Phần kết quả đặc biệt đã được cập nhật từ results.json")
+        print(f"✅ Phần kết quả giải 6 đã được cập nhật từ results-giai6.json")
         print(f"✅ Tổng cộng {len(numbers)} số dự đoán")
         print(f"{'='*60}")
     else:

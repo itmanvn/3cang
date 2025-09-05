@@ -279,6 +279,128 @@ def save_result_to_json(special_number, is_correct):
         print(f"❌ Lỗi khi lưu kết quả: {str(e)}")
         return False
 
+def get_today_prize6_numbers():
+    """Lấy 3 số giải 6 của ngày hôm nay từ xsmb.json"""
+    print("🔍 Đang tìm 3 số giải 6 của ngày hôm nay...")
+    
+    try:
+        xsmb_file = "vietnam-lottery-xsmb-analysis/data/xsmb.json"
+        
+        if not os.path.exists(xsmb_file):
+            print(f"❌ Không tìm thấy file: {xsmb_file}")
+            return None
+        
+        with open(xsmb_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Lấy ngày hôm nay theo định dạng YYYY-MM-DD
+        today = date.today().strftime("%Y-%m-%d")
+        
+        # Tìm bản ghi của ngày hôm nay
+        for record in data:
+            record_date = record.get('date', '')
+            if (record_date.startswith(today) or record_date == today):
+                prize6_numbers = []
+                
+                # Lấy 3 số cuối của 3 giải 6
+                if 'prize6_1' in record:
+                    prize6_1 = record['prize6_1'] % 1000
+                    prize6_numbers.append(prize6_1)
+                
+                if 'prize6_2' in record:
+                    prize6_2 = record['prize6_2'] % 1000
+                    prize6_numbers.append(prize6_2)
+                
+                if 'prize6_3' in record:
+                    prize6_3 = record['prize6_3'] % 1000
+                    prize6_numbers.append(prize6_3)
+                
+                if prize6_numbers:
+                    formatted_numbers = [f"{num:03d}" for num in prize6_numbers]
+                    print(f"✅ Tìm thấy 3 số giải 6 ngày {today}: {formatted_numbers}")
+                    return formatted_numbers
+        
+        print(f"⚠️  Không tìm thấy 3 số giải 6 cho ngày {today}")
+        return None
+        
+    except Exception as e:
+        print(f"❌ Lỗi khi tìm 3 số giải 6: {str(e)}")
+        return None
+
+def check_prize6_prediction_result(prize6_numbers, predictions):
+    """Kiểm tra xem các số giải 6 có trong dự đoán không"""
+    if prize6_numbers is None or predictions is None:
+        return {"trung": 0, "trat": 0, "details": []}
+    
+    results = {"trung": 0, "trat": 0, "details": []}
+    
+    for number in prize6_numbers:
+        is_correct = number in predictions
+        if is_correct:
+            results["trung"] += 1
+            print(f"🎉 TRÚNG! Số {number} có trong dự đoán!")
+        else:
+            results["trat"] += 1
+            print(f"❌ TRẬT! Số {number} không có trong dự đoán")
+        
+        results["details"].append({
+            "number": number,
+            "status": "trúng" if is_correct else "trật"
+        })
+    
+    return results
+
+def save_prize6_result_to_json(prize6_numbers, results):
+    """Lưu kết quả giải 6 vào file results-giai6.json"""
+    print("💾 Đang lưu kết quả giải 6 vào file results-giai6.json...")
+    
+    try:
+        results_file = "results-giai6.json"
+        today = date.today().strftime("%Y-%m-%d")
+        current_time = get_current_time_gmt7().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Tạo dữ liệu kết quả mới
+        new_result = {
+            "date": today,
+            "timestamp": current_time,
+            "prize6_numbers": prize6_numbers,
+            "trung": results["trung"],
+            "trat": results["trat"],
+            "details": results["details"]
+        }
+        
+        # Đọc dữ liệu hiện tại
+        if os.path.exists(results_file):
+            with open(results_file, 'r', encoding='utf-8') as f:
+                try:
+                    existing_data = json.load(f)
+                except json.JSONDecodeError:
+                    existing_data = {"results": []}
+        else:
+            existing_data = {"results": []}
+        
+        # Đảm bảo có cấu trúc results
+        if "results" not in existing_data:
+            existing_data["results"] = []
+        
+        # Thêm kết quả mới
+        existing_data["results"].append(new_result)
+        
+        # Lưu lại file
+        with open(results_file, 'w', encoding='utf-8') as f:
+            json.dump(existing_data, f, ensure_ascii=False, indent=2)
+        
+        print(f"✅ Đã lưu kết quả giải 6 vào {results_file}")
+        print(f"📅 Ngày: {today}")
+        print(f"🔢 3 số giải 6: {prize6_numbers}")
+        print(f"📊 Trúng: {results['trung']}, Trật: {results['trat']}")
+        
+        return True
+        
+    except Exception as e:
+        print(f"❌ Lỗi khi lưu kết quả giải 6: {str(e)}")
+        return False
+
 def check_and_save_results():
     """Kiểm tra và lưu kết quả dự đoán nếu đã sau 18h45"""
     print("🕐 Kiểm tra thời gian hiện tại...")
@@ -309,6 +431,37 @@ def check_and_save_results():
     
     # Lưu kết quả
     save_result_to_json(special_number, is_correct)
+
+def check_and_save_prize6_results():
+    """Kiểm tra và lưu kết quả dự đoán giải 6 nếu đã sau 18h45"""
+    print("🕐 Kiểm tra thời gian hiện tại cho giải 6...")
+    
+    current_time = get_current_time_gmt7()
+    print(f"📅 Thời gian hiện tại (GMT+7): {current_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    if not is_after_18h45():
+        print("⏰ Chưa đến 18h45, không kiểm tra kết quả giải 6")
+        return
+    
+    print("✅ Đã sau 18h45, bắt đầu kiểm tra kết quả dự đoán giải 6...")
+    
+    # Lấy 3 số giải 6 của ngày hôm nay
+    prize6_numbers = get_today_prize6_numbers()
+    if prize6_numbers is None:
+        print("❌ Không thể lấy 3 số giải 6 của ngày hôm nay")
+        return
+    
+    # Lấy dự đoán của ngày hôm nay
+    predictions = get_today_prediction()
+    if predictions is None:
+        print("❌ Không thể lấy dự đoán của ngày hôm nay")
+        return
+    
+    # Kiểm tra kết quả giải 6
+    results = check_prize6_prediction_result(prize6_numbers, predictions)
+    
+    # Lưu kết quả giải 6
+    save_prize6_result_to_json(prize6_numbers, results)
 
 def main():
     """Hàm chính"""
@@ -356,6 +509,10 @@ def main():
         # Bước 5: Kiểm tra kết quả dự đoán nếu đã sau 18h45
         print(f"\n🔄 BƯỚC 5: Kiểm tra kết quả dự đoán...")
         check_and_save_results()
+        
+        # Bước 6: Kiểm tra kết quả dự đoán giải 6 nếu đã sau 18h45
+        print(f"\n🔄 BƯỚC 6: Kiểm tra kết quả dự đoán giải 6...")
+        check_and_save_prize6_results()
         
     else:
         print(f"\n⚠️  Cập nhật không thành công")
