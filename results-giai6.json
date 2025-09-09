@@ -199,6 +199,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2025-09-09",
+      "timestamp": "2025-09-09 18:54:58",
+      "prize6_numbers": [
+        "388",
+        "087",
+        "085"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "388",
+          "status": "trật"
+        },
+        {
+          "number": "087",
+          "status": "trật"
+        },
+        {
+          "number": "085",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
