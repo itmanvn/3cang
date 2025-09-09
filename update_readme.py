@@ -95,7 +95,7 @@ def read_prize6_results_from_json():
 def format_results_for_readme(results, max_days=None):
     """Format kết quả thành chuỗi cho README"""
     if not results:
-        return "- **3 càng đặc biệt:**\n  - Chưa có dữ liệu kết quả"
+        return "| Ngày | 3 càng đặc biệt |\n|------|----------------|\n| - | Chưa có dữ liệu |"
     
     # Lọc kết quả từ ngày 1 đến ngày hiện tại của tháng
     current_month = datetime.now().month
@@ -125,7 +125,8 @@ def format_results_for_readme(results, max_days=None):
     else:
         recent_results = sorted_results[:max_days]
     
-    results_text = "- **3 càng đặc biệt:**\n"
+    # Tạo bảng markdown
+    results_text = "| Ngày | 3 càng đặc biệt |\n|------|----------------|\n"
     
     for result in recent_results:
         date_str = result.get("date", "")
@@ -147,14 +148,14 @@ def format_results_for_readme(results, max_days=None):
         else:
             status_icon = "❓ CHƯA RÕ"
         
-        results_text += f"  - **{formatted_date}:** Số {special_number} - {status_icon}\n"
+        results_text += f"| **{formatted_date}** | Số {special_number} - {status_icon} |\n"
     
     return results_text.strip()
 
 def format_prize6_results_for_readme(results, max_days=None):
     """Format kết quả giải 6 thành chuỗi cho README"""
     if not results:
-        return "- **3 càng đầu:**\n  - Chưa có dữ liệu kết quả"
+        return "| Ngày | 3 càng đầu |\n|------|------------|\n| - | Chưa có dữ liệu |"
     
     # Lọc kết quả từ ngày 1 đến ngày hiện tại của tháng
     current_month = datetime.now().month
@@ -184,7 +185,8 @@ def format_prize6_results_for_readme(results, max_days=None):
     else:
         recent_results = sorted_results[:max_days]
     
-    results_text = "- **3 càng đầu:**\n"
+    # Tạo bảng markdown
+    results_text = "| Ngày | 3 càng đầu |\n|------|------------|\n"
     
     for result in recent_results:
         date_str = result.get("date", "")
@@ -208,7 +210,7 @@ def format_prize6_results_for_readme(results, max_days=None):
         else:
             status_icon = "❌ TRẬT"
         
-        results_text += f"  - **{formatted_date}:** Số {numbers_display} - {status_icon}\n"
+        results_text += f"| **{formatted_date}** | Số {numbers_display} - {status_icon} |\n"
     
     return results_text.strip()
 
@@ -289,18 +291,104 @@ def update_prediction_section(content, date, numbers_str):
     
     return '\n'.join(new_lines)
 
+def format_combined_results_table(results, prize6_results):
+    """Tạo bảng kết hợp cho cả 3 càng đặc biệt và 3 càng đầu"""
+    # Lọc kết quả từ ngày 1 đến ngày hiện tại của tháng
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    current_day = datetime.now().day
+    
+    # Lọc kết quả đặc biệt
+    filtered_special = []
+    for result in results:
+        try:
+            date_str = result.get("date", "")
+            if date_str:
+                result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                if (result_date.year == current_year and 
+                    result_date.month == current_month and 
+                    result_date.day <= current_day):
+                    filtered_special.append(result)
+        except:
+            continue
+    
+    # Lọc kết quả giải 6
+    filtered_prize6 = []
+    for result in prize6_results:
+        try:
+            date_str = result.get("date", "")
+            if date_str:
+                result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                if (result_date.year == current_year and 
+                    result_date.month == current_month and 
+                    result_date.day <= current_day):
+                    filtered_prize6.append(result)
+        except:
+            continue
+    
+    # Tạo dictionary để dễ tìm kiếm theo ngày
+    special_dict = {}
+    for result in filtered_special:
+        date_str = result.get("date", "")
+        special_number = result.get("special_number", "")
+        status = result.get("status", "")
+        
+        if status == "trúng":
+            status_icon = "✅ TRÚNG"
+        elif status == "trật":
+            status_icon = "❌ TRẬT"
+        else:
+            status_icon = "❓ CHƯA RÕ"
+        
+        special_dict[date_str] = f"Số {special_number} - {status_icon}"
+    
+    prize6_dict = {}
+    for result in filtered_prize6:
+        date_str = result.get("date", "")
+        prize6_numbers = result.get("prize6_numbers", [])
+        trung = result.get("trung", 0)
+        
+        numbers_display = ", ".join(prize6_numbers) if prize6_numbers else "N/A"
+        
+        if trung > 0:
+            status_icon = f"✅ TRÚNG {trung}/3"
+        else:
+            status_icon = "❌ TRẬT"
+        
+        prize6_dict[date_str] = f"Số {numbers_display} - {status_icon}"
+    
+    # Lấy tất cả ngày và sắp xếp
+    all_dates = set(special_dict.keys()) | set(prize6_dict.keys())
+    sorted_dates = sorted(all_dates, reverse=True)
+    
+    # Tạo bảng markdown
+    table_text = "| Ngày | 3 càng đặc biệt | 3 càng đầu |\n"
+    table_text += "|------|----------------|------------|\n"
+    
+    for date_str in sorted_dates:
+        try:
+            date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+            formatted_date = date_obj.strftime("%d/%m/%Y")
+        except:
+            formatted_date = date_str
+        
+        special_text = special_dict.get(date_str, "-")
+        prize6_text = prize6_dict.get(date_str, "-")
+        
+        table_text += f"| **{formatted_date}** | {special_text} | {prize6_text} |\n"
+    
+    return table_text.strip()
+
 def update_results_section(content):
     """Cập nhật phần kết quả"""
     # Đọc kết quả từ results.json
     results = read_results_from_json()
-    results_text = format_results_for_readme(results)
     
     # Đọc kết quả giải 6 từ results-giai6.json
     prize6_results = read_prize6_results_from_json()
-    prize6_text = format_prize6_results_for_readme(prize6_results)
     
-    # Kết hợp cả hai phần kết quả
-    combined_results = results_text + "\n\n" + prize6_text
+    # Tạo bảng kết hợp
+    combined_results = format_combined_results_table(results, prize6_results)
     
     lines = content.split('\n')
     start_line = -1
@@ -309,9 +397,9 @@ def update_results_section(content):
     # Tìm dòng bắt đầu của phần kết quả
     for i, line in enumerate(lines):
         if '## Kết quả dự đoán' in line:
-            # Tìm dòng có "- **3 càng đặc biệt:**" (bỏ qua dòng trống)
+            # Tìm dòng có "- **3 càng đặc biệt:**" hoặc "| Ngày |" (bảng markdown)
             for j in range(i + 1, len(lines)):
-                if lines[j].strip() and '- **3 càng đặc biệt:**' in lines[j]:
+                if lines[j].strip() and ('- **3 càng đặc biệt:**' in lines[j] or '| Ngày |' in lines[j]):
                     start_line = j
                     print(f"📝 Tìm thấy dòng bắt đầu kết quả: {i+1}: {line}")
                     print(f"📝 Dòng nội dung đầu tiên: {j+1}: '{lines[j]}'")
@@ -334,7 +422,7 @@ def update_results_section(content):
     
     # Thay thế phần cũ
     new_lines = lines[:start_line] + combined_results.split('\n') + lines[end_line:]
-    print(f"✅ Đã cập nhật phần kết quả (bao gồm giải 6)")
+    print(f"✅ Đã cập nhật phần kết quả (bảng kết hợp 3 càng đặc biệt và 3 càng đầu)")
     print(f"📊 Thay thế kết quả từ dòng {start_line+1} đến {end_line}")
     
     return '\n'.join(new_lines)
@@ -459,8 +547,7 @@ def main():
         print("🎯 HOÀN THÀNH!")
         print(f"✅ Đã cập nhật README.md với dự đoán ngày {formatted_date}")
         print(f"✅ 255 số đặc biệt đã được cập nhật")
-        print(f"✅ Phần kết quả đặc biệt tháng {current_month}/{current_year} đã được cập nhật từ results.json")
-        print(f"✅ Phần kết quả giải 6 tháng {current_month}/{current_year} đã được cập nhật từ results-giai6.json")
+        print(f"✅ Bảng kết quả tháng {current_month}/{current_year} đã được cập nhật (3 càng đặc biệt + 3 càng đầu)")
         print(f"✅ Tổng cộng {len(numbers)} số dự đoán")
         print(f"{'='*60}")
     else:
