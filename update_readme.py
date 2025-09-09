@@ -92,16 +92,38 @@ def read_prize6_results_from_json():
         print(f"❌ Lỗi khi đọc file results-giai6.json: {str(e)}")
         return []
 
-def format_results_for_readme(results, max_days=7):
+def format_results_for_readme(results, max_days=None):
     """Format kết quả thành chuỗi cho README"""
     if not results:
         return "- **3 càng đặc biệt:**\n  - Chưa có dữ liệu kết quả"
     
-    # Sắp xếp theo ngày (mới nhất trước)
-    sorted_results = sorted(results, key=lambda x: x.get("date", ""), reverse=True)
+    # Lọc kết quả từ ngày 1 đến ngày hiện tại của tháng
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    current_day = datetime.now().day
     
-    # Lấy tối đa max_days kết quả
-    recent_results = sorted_results[:max_days]
+    filtered_results = []
+    for result in results:
+        try:
+            date_str = result.get("date", "")
+            if date_str:
+                result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                # Chỉ lấy kết quả của tháng hiện tại
+                if (result_date.year == current_year and 
+                    result_date.month == current_month and 
+                    result_date.day <= current_day):
+                    filtered_results.append(result)
+        except:
+            continue
+    
+    # Sắp xếp theo ngày (mới nhất trước)
+    sorted_results = sorted(filtered_results, key=lambda x: x.get("date", ""), reverse=True)
+    
+    # Nếu không có max_days, lấy tất cả kết quả của tháng
+    if max_days is None:
+        recent_results = sorted_results
+    else:
+        recent_results = sorted_results[:max_days]
     
     results_text = "- **3 càng đặc biệt:**\n"
     
@@ -129,16 +151,38 @@ def format_results_for_readme(results, max_days=7):
     
     return results_text.strip()
 
-def format_prize6_results_for_readme(results, max_days=7):
+def format_prize6_results_for_readme(results, max_days=None):
     """Format kết quả giải 6 thành chuỗi cho README"""
     if not results:
         return "- **3 càng đầu:**\n  - Chưa có dữ liệu kết quả"
     
-    # Sắp xếp theo ngày (mới nhất trước)
-    sorted_results = sorted(results, key=lambda x: x.get("date", ""), reverse=True)
+    # Lọc kết quả từ ngày 1 đến ngày hiện tại của tháng
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    current_day = datetime.now().day
     
-    # Lấy tối đa max_days kết quả
-    recent_results = sorted_results[:max_days]
+    filtered_results = []
+    for result in results:
+        try:
+            date_str = result.get("date", "")
+            if date_str:
+                result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                # Chỉ lấy kết quả của tháng hiện tại
+                if (result_date.year == current_year and 
+                    result_date.month == current_month and 
+                    result_date.day <= current_day):
+                    filtered_results.append(result)
+        except:
+            continue
+    
+    # Sắp xếp theo ngày (mới nhất trước)
+    sorted_results = sorted(filtered_results, key=lambda x: x.get("date", ""), reverse=True)
+    
+    # Nếu không có max_days, lấy tất cả kết quả của tháng
+    if max_days is None:
+        recent_results = sorted_results
+    else:
+        recent_results = sorted_results[:max_days]
     
     results_text = "- **3 càng đầu:**\n"
     
@@ -333,43 +377,79 @@ def main():
     # Hiển thị thông tin kết quả
     results = read_results_from_json()
     if results:
-        display_count = min(7, len(results))
-        print(f"\n📊 Kết quả dự đoán đặc biệt ({display_count}/{len(results)} ngày gần nhất):")
-        for result in results[:3]:  # Hiển thị 3 ngày gần nhất
-            date_str = result.get("date", "")
-            special_number = result.get("special_number", "")
-            status = result.get("status", "")
-            
+        # Lọc kết quả của tháng hiện tại
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        current_day = datetime.now().day
+        
+        monthly_results = []
+        for result in results:
             try:
-                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-                formatted_date_result = date_obj.strftime("%d/%m/%Y")
+                date_str = result.get("date", "")
+                if date_str:
+                    result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                    if (result_date.year == current_year and 
+                        result_date.month == current_month and 
+                        result_date.day <= current_day):
+                        monthly_results.append(result)
             except:
-                formatted_date_result = date_str
-            
-            status_icon = "✅ TRÚNG" if status == "trúng" else "❌ TRẬT" if status == "trật" else "❓ CHƯA RÕ"
-            print(f"  - {formatted_date_result}: Số {special_number} - {status_icon}")
+                continue
+        
+        if monthly_results:
+            print(f"\n📊 Kết quả dự đoán đặc biệt tháng {current_month}/{current_year} ({len(monthly_results)} ngày):")
+            for result in monthly_results[:3]:  # Hiển thị 3 ngày gần nhất
+                date_str = result.get("date", "")
+                special_number = result.get("special_number", "")
+                status = result.get("status", "")
+                
+                try:
+                    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                    formatted_date_result = date_obj.strftime("%d/%m/%Y")
+                except:
+                    formatted_date_result = date_str
+                
+                status_icon = "✅ TRÚNG" if status == "trúng" else "❌ TRẬT" if status == "trật" else "❓ CHƯA RÕ"
+                print(f"  - {formatted_date_result}: Số {special_number} - {status_icon}")
+        else:
+            print(f"\n⚠️  Chưa có dữ liệu kết quả đặc biệt tháng {current_month}/{current_year}")
     else:
         print("\n⚠️  Chưa có dữ liệu kết quả đặc biệt")
     
     # Hiển thị thông tin kết quả giải 6
     prize6_results = read_prize6_results_from_json()
     if prize6_results:
-        display_count = min(7, len(prize6_results))
-        print(f"\n📊 Kết quả dự đoán giải 6 ({display_count}/{len(prize6_results)} ngày gần nhất):")
-        for result in prize6_results[:3]:  # Hiển thị 3 ngày gần nhất
-            date_str = result.get("date", "")
-            prize6_numbers = result.get("prize6_numbers", [])
-            trung = result.get("trung", 0)
-            
+        # Lọc kết quả của tháng hiện tại
+        monthly_prize6_results = []
+        for result in prize6_results:
             try:
-                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-                formatted_date_result = date_obj.strftime("%d/%m/%Y")
+                date_str = result.get("date", "")
+                if date_str:
+                    result_date = datetime.strptime(date_str, "%Y-%m-%d")
+                    if (result_date.year == current_year and 
+                        result_date.month == current_month and 
+                        result_date.day <= current_day):
+                        monthly_prize6_results.append(result)
             except:
-                formatted_date_result = date_str
-            
-            numbers_display = ", ".join(prize6_numbers) if prize6_numbers else "N/A"
-            status_icon = f"✅ TRÚNG {trung}/3" if trung > 0 else "❌ TRẬT"
-            print(f"  - {formatted_date_result}: Số {numbers_display} - {status_icon}")
+                continue
+        
+        if monthly_prize6_results:
+            print(f"\n📊 Kết quả dự đoán giải 6 tháng {current_month}/{current_year} ({len(monthly_prize6_results)} ngày):")
+            for result in monthly_prize6_results[:3]:  # Hiển thị 3 ngày gần nhất
+                date_str = result.get("date", "")
+                prize6_numbers = result.get("prize6_numbers", [])
+                trung = result.get("trung", 0)
+                
+                try:
+                    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                    formatted_date_result = date_obj.strftime("%d/%m/%Y")
+                except:
+                    formatted_date_result = date_str
+                
+                numbers_display = ", ".join(prize6_numbers) if prize6_numbers else "N/A"
+                status_icon = f"✅ TRÚNG {trung}/3" if trung > 0 else "❌ TRẬT"
+                print(f"  - {formatted_date_result}: Số {numbers_display} - {status_icon}")
+        else:
+            print(f"\n⚠️  Chưa có dữ liệu kết quả giải 6 tháng {current_month}/{current_year}")
     else:
         print("\n⚠️  Chưa có dữ liệu kết quả giải 6")
     
@@ -379,8 +459,8 @@ def main():
         print("🎯 HOÀN THÀNH!")
         print(f"✅ Đã cập nhật README.md với dự đoán ngày {formatted_date}")
         print(f"✅ 255 số đặc biệt đã được cập nhật")
-        print(f"✅ Phần kết quả đặc biệt đã được cập nhật từ results.json")
-        print(f"✅ Phần kết quả giải 6 đã được cập nhật từ results-giai6.json")
+        print(f"✅ Phần kết quả đặc biệt tháng {current_month}/{current_year} đã được cập nhật từ results.json")
+        print(f"✅ Phần kết quả giải 6 tháng {current_month}/{current_year} đã được cập nhật từ results-giai6.json")
         print(f"✅ Tổng cộng {len(numbers)} số dự đoán")
         print(f"{'='*60}")
     else:
