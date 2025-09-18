@@ -424,6 +424,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-09-18",
+      "timestamp": "2025-09-18 18:55:00",
+      "prize6_numbers": [
+        "475",
+        "989",
+        "682"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "475",
+          "status": "trật"
+        },
+        {
+          "number": "989",
+          "status": "trật"
+        },
+        {
+          "number": "682",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
