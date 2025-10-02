@@ -774,6 +774,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-10-02",
+      "timestamp": "2025-10-02 18:54:36",
+      "prize6_numbers": [
+        "967",
+        "679",
+        "796"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "967",
+          "status": "trật"
+        },
+        {
+          "number": "679",
+          "status": "trúng"
+        },
+        {
+          "number": "796",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
