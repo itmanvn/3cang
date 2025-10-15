@@ -269,6 +269,12 @@
       "timestamp": "2025-10-14 18:55:39",
       "special_number": "424",
       "status": "trúng"
+    },
+    {
+      "date": "2025-10-15",
+      "timestamp": "2025-10-15 18:55:31",
+      "special_number": "028",
+      "status": "trúng"
     }
   ]
 }
