@@ -371,6 +371,12 @@
       "timestamp": "2025-10-31 18:55:55",
       "special_number": "301",
       "status": "trúng"
+    },
+    {
+      "date": "2025-11-01",
+      "timestamp": "2025-11-01 18:55:59",
+      "special_number": "792",
+      "status": "trật"
     }
   ]
 }
