@@ -1899,6 +1899,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2025-11-16",
+      "timestamp": "2025-11-16 18:56:31",
+      "prize6_numbers": [
+        "355",
+        "505",
+        "000"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "355",
+          "status": "trật"
+        },
+        {
+          "number": "505",
+          "status": "trật"
+        },
+        {
+          "number": "000",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
