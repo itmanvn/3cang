@@ -1949,6 +1949,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-11-18",
+      "timestamp": "2025-11-18 18:56:32",
+      "prize6_numbers": [
+        "347",
+        "136",
+        "734"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "347",
+          "status": "trật"
+        },
+        {
+          "number": "136",
+          "status": "trật"
+        },
+        {
+          "number": "734",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
