@@ -1974,6 +1974,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2025-11-19",
+      "timestamp": "2025-11-19 18:55:23",
+      "prize6_numbers": [
+        "295",
+        "770",
+        "742"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "295",
+          "status": "trật"
+        },
+        {
+          "number": "770",
+          "status": "trật"
+        },
+        {
+          "number": "742",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
