@@ -1999,6 +1999,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-11-20",
+      "timestamp": "2025-11-20 18:56:30",
+      "prize6_numbers": [
+        "046",
+        "737",
+        "274"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "046",
+          "status": "trúng"
+        },
+        {
+          "number": "737",
+          "status": "trật"
+        },
+        {
+          "number": "274",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
