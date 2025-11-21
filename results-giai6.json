@@ -2024,6 +2024,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-11-21",
+      "timestamp": "2025-11-21 18:57:27",
+      "prize6_numbers": [
+        "496",
+        "943",
+        "543"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "496",
+          "status": "trật"
+        },
+        {
+          "number": "943",
+          "status": "trật"
+        },
+        {
+          "number": "543",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
