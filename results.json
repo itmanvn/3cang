@@ -503,6 +503,12 @@
       "timestamp": "2025-11-22 18:55:40",
       "special_number": "103",
       "status": "trật"
+    },
+    {
+      "date": "2025-11-23",
+      "timestamp": "2025-11-23 18:55:23",
+      "special_number": "004",
+      "status": "trật"
     }
   ]
 }
