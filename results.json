@@ -509,6 +509,12 @@
       "timestamp": "2025-11-23 18:55:23",
       "special_number": "004",
       "status": "trật"
+    },
+    {
+      "date": "2025-11-24",
+      "timestamp": "2025-11-24 18:57:10",
+      "special_number": "239",
+      "status": "trật"
     }
   ]
 }
