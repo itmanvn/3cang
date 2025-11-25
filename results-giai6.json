@@ -2124,6 +2124,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2025-11-25",
+      "timestamp": "2025-11-25 18:57:09",
+      "prize6_numbers": [
+        "161",
+        "047",
+        "838"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "161",
+          "status": "trật"
+        },
+        {
+          "number": "047",
+          "status": "trật"
+        },
+        {
+          "number": "838",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
