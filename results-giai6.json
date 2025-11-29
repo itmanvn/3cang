@@ -2224,6 +2224,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2025-11-29",
+      "timestamp": "2025-11-29 18:56:48",
+      "prize6_numbers": [
+        "938",
+        "218",
+        "112"
+      ],
+      "trung": 2,
+      "trat": 1,
+      "details": [
+        {
+          "number": "938",
+          "status": "trật"
+        },
+        {
+          "number": "218",
+          "status": "trúng"
+        },
+        {
+          "number": "112",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
