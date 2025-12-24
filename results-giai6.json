@@ -2849,6 +2849,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2025-12-24",
+      "timestamp": "2025-12-24 18:56:58",
+      "prize6_numbers": [
+        "752",
+        "692",
+        "446"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "752",
+          "status": "trật"
+        },
+        {
+          "number": "692",
+          "status": "trật"
+        },
+        {
+          "number": "446",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
