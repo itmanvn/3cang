@@ -3199,6 +3199,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-01-07",
+      "timestamp": "2026-01-07 18:59:16",
+      "prize6_numbers": [
+        "065",
+        "764",
+        "088"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "065",
+          "status": "trật"
+        },
+        {
+          "number": "764",
+          "status": "trúng"
+        },
+        {
+          "number": "088",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
