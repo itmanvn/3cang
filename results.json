@@ -803,6 +803,12 @@
       "timestamp": "2026-01-11 18:59:09",
       "special_number": "438",
       "status": "trật"
+    },
+    {
+      "date": "2026-01-12",
+      "timestamp": "2026-01-12 18:59:00",
+      "special_number": "894",
+      "status": "trật"
     }
   ]
 }
