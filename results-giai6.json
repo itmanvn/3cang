@@ -3824,6 +3824,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-02-01",
+      "timestamp": "2026-02-01 19:00:25",
+      "prize6_numbers": [
+        "431",
+        "107",
+        "573"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "431",
+          "status": "trật"
+        },
+        {
+          "number": "107",
+          "status": "trật"
+        },
+        {
+          "number": "573",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
