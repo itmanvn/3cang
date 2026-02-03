@@ -3874,6 +3874,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-02-03",
+      "timestamp": "2026-02-03 19:10:24",
+      "prize6_numbers": [
+        "552",
+        "822",
+        "147"
+      ],
+      "trung": 2,
+      "trat": 1,
+      "details": [
+        {
+          "number": "552",
+          "status": "trật"
+        },
+        {
+          "number": "822",
+          "status": "trúng"
+        },
+        {
+          "number": "147",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
