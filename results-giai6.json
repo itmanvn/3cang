@@ -4099,6 +4099,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-02-12",
+      "timestamp": "2026-02-12 19:36:25",
+      "prize6_numbers": [
+        "990",
+        "720",
+        "207"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "990",
+          "status": "trúng"
+        },
+        {
+          "number": "720",
+          "status": "trật"
+        },
+        {
+          "number": "207",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
