@@ -4324,6 +4324,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-02-25",
+      "timestamp": "2026-02-25 19:34:46",
+      "prize6_numbers": [
+        "410",
+        "044",
+        "718"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "410",
+          "status": "trật"
+        },
+        {
+          "number": "044",
+          "status": "trật"
+        },
+        {
+          "number": "718",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
