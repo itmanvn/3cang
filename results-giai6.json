@@ -4424,6 +4424,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-03-01",
+      "timestamp": "2026-03-01 18:59:56",
+      "prize6_numbers": [
+        "248",
+        "357",
+        "890"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "248",
+          "status": "trật"
+        },
+        {
+          "number": "357",
+          "status": "trật"
+        },
+        {
+          "number": "890",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }

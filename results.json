@@ -1067,6 +1067,12 @@
       "timestamp": "2026-02-28 18:59:16",
       "special_number": "891",
       "status": "trật"
+    },
+    {
+      "date": "2026-03-01",
+      "timestamp": "2026-03-01 18:59:56",
+      "special_number": "148",
+      "status": "trật"
     }
   ]
 }
