@@ -1079,6 +1079,12 @@
       "timestamp": "2026-03-02 19:07:04",
       "special_number": "257",
       "status": "trúng"
+    },
+    {
+      "date": "2026-03-03",
+      "timestamp": "2026-03-03 19:07:22",
+      "special_number": "078",
+      "status": "trúng"
     }
   ]
 }

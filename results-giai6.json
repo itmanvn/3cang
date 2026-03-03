@@ -4474,6 +4474,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-03-03",
+      "timestamp": "2026-03-03 19:07:22",
+      "prize6_numbers": [
+        "437",
+        "240",
+        "408"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "437",
+          "status": "trúng"
+        },
+        {
+          "number": "240",
+          "status": "trật"
+        },
+        {
+          "number": "408",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
