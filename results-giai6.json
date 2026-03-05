@@ -4524,6 +4524,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-03-05",
+      "timestamp": "2026-03-05 19:08:58",
+      "prize6_numbers": [
+        "331",
+        "968",
+        "885"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "331",
+          "status": "trật"
+        },
+        {
+          "number": "968",
+          "status": "trật"
+        },
+        {
+          "number": "885",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
