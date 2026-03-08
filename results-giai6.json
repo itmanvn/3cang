@@ -4599,6 +4599,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-03-08",
+      "timestamp": "2026-03-08 19:02:33",
+      "prize6_numbers": [
+        "787",
+        "365",
+        "384"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "787",
+          "status": "trật"
+        },
+        {
+          "number": "365",
+          "status": "trật"
+        },
+        {
+          "number": "384",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
