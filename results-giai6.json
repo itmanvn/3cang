@@ -4699,6 +4699,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-03-12",
+      "timestamp": "2026-03-12 19:05:16",
+      "prize6_numbers": [
+        "270",
+        "656",
+        "927"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "270",
+          "status": "trật"
+        },
+        {
+          "number": "656",
+          "status": "trật"
+        },
+        {
+          "number": "927",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
