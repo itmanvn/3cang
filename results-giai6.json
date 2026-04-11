@@ -5449,6 +5449,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-04-11",
+      "timestamp": "2026-04-11 19:04:57",
+      "prize6_numbers": [
+        "097",
+        "494",
+        "880"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "097",
+          "status": "trật"
+        },
+        {
+          "number": "494",
+          "status": "trật"
+        },
+        {
+          "number": "880",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
