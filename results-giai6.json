@@ -5499,6 +5499,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-04-13",
+      "timestamp": "2026-04-13 19:50:57",
+      "prize6_numbers": [
+        "536",
+        "189",
+        "368"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "536",
+          "status": "trật"
+        },
+        {
+          "number": "189",
+          "status": "trúng"
+        },
+        {
+          "number": "368",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
