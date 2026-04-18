@@ -5624,6 +5624,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-04-18",
+      "timestamp": "2026-04-18 19:07:42",
+      "prize6_numbers": [
+        "872",
+        "043",
+        "819"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "872",
+          "status": "trật"
+        },
+        {
+          "number": "043",
+          "status": "trúng"
+        },
+        {
+          "number": "819",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
