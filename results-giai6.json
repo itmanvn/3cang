@@ -5674,6 +5674,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-04-20",
+      "timestamp": "2026-04-20 19:54:45",
+      "prize6_numbers": [
+        "466",
+        "461",
+        "061"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "466",
+          "status": "trật"
+        },
+        {
+          "number": "461",
+          "status": "trật"
+        },
+        {
+          "number": "061",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
