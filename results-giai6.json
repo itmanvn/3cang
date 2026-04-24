@@ -5774,6 +5774,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-04-24",
+      "timestamp": "2026-04-24 19:48:53",
+      "prize6_numbers": [
+        "355",
+        "334",
+        "771"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "355",
+          "status": "trúng"
+        },
+        {
+          "number": "334",
+          "status": "trật"
+        },
+        {
+          "number": "771",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
