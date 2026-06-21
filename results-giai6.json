@@ -7199,6 +7199,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-06-21",
+      "timestamp": "2026-06-21 20:30:42",
+      "prize6_numbers": [
+        "595",
+        "625",
+        "140"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "595",
+          "status": "trật"
+        },
+        {
+          "number": "625",
+          "status": "trật"
+        },
+        {
+          "number": "140",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
