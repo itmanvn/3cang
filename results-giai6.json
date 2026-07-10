@@ -7674,6 +7674,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-07-10",
+      "timestamp": "2026-07-10 20:49:11",
+      "prize6_numbers": [
+        "016",
+        "402",
+        "443"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "016",
+          "status": "trật"
+        },
+        {
+          "number": "402",
+          "status": "trật"
+        },
+        {
+          "number": "443",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
