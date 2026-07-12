@@ -7724,6 +7724,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-07-12",
+      "timestamp": "2026-07-12 19:42:30",
+      "prize6_numbers": [
+        "056",
+        "469",
+        "634"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "056",
+          "status": "trật"
+        },
+        {
+          "number": "469",
+          "status": "trật"
+        },
+        {
+          "number": "634",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
