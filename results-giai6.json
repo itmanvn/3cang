@@ -8024,6 +8024,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-07-24",
+      "timestamp": "2026-07-24 20:10:19",
+      "prize6_numbers": [
+        "074",
+        "976",
+        "278"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "074",
+          "status": "trật"
+        },
+        {
+          "number": "976",
+          "status": "trật"
+        },
+        {
+          "number": "278",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
