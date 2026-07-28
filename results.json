@@ -1955,6 +1955,12 @@
       "timestamp": "2026-07-27 21:02:42",
       "special_number": "796",
       "status": "trật"
+    },
+    {
+      "date": "2026-07-28",
+      "timestamp": "2026-07-28 20:23:42",
+      "special_number": "000",
+      "status": "trật"
     }
   ]
 }
