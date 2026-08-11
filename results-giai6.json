@@ -8474,6 +8474,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-08-11",
+      "timestamp": "2026-08-11 19:33:21",
+      "prize6_numbers": [
+        "982",
+        "824",
+        "787"
+      ],
+      "trung": 2,
+      "trat": 1,
+      "details": [
+        {
+          "number": "982",
+          "status": "trật"
+        },
+        {
+          "number": "824",
+          "status": "trúng"
+        },
+        {
+          "number": "787",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
