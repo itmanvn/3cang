@@ -8549,6 +8549,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-08-14",
+      "timestamp": "2026-08-14 19:32:51",
+      "prize6_numbers": [
+        "240",
+        "470",
+        "855"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "240",
+          "status": "trật"
+        },
+        {
+          "number": "470",
+          "status": "trật"
+        },
+        {
+          "number": "855",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
