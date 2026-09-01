@@ -8924,6 +8924,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-09-01",
+      "timestamp": "2026-09-01 22:38:10",
+      "prize6_numbers": [
+        "874",
+        "177",
+        "239"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "874",
+          "status": "trật"
+        },
+        {
+          "number": "177",
+          "status": "trật"
+        },
+        {
+          "number": "239",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
