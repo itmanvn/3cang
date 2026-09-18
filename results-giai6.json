@@ -9324,6 +9324,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-09-18",
+      "timestamp": "2026-09-18 22:15:11",
+      "prize6_numbers": [
+        "132",
+        "842",
+        "745"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "132",
+          "status": "trật"
+        },
+        {
+          "number": "842",
+          "status": "trật"
+        },
+        {
+          "number": "745",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
