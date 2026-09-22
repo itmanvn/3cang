@@ -9399,6 +9399,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-09-22",
+      "timestamp": "2026-09-22 22:48:19",
+      "prize6_numbers": [
+        "651",
+        "911",
+        "839"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "651",
+          "status": "trật"
+        },
+        {
+          "number": "911",
+          "status": "trật"
+        },
+        {
+          "number": "839",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
