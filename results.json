@@ -2315,6 +2315,12 @@
       "timestamp": "2026-10-04 23:03:11",
       "special_number": "951",
       "status": "trúng"
+    },
+    {
+      "date": "2026-10-10",
+      "timestamp": "2026-10-10 23:27:16",
+      "special_number": "153",
+      "status": "trật"
     }
   ]
 }
