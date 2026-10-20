@@ -9799,6 +9799,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-10-20",
+      "timestamp": "2026-10-20 22:54:12",
+      "prize6_numbers": [
+        "503",
+        "744",
+        "566"
+      ],
+      "trung": 3,
+      "trat": 0,
+      "details": [
+        {
+          "number": "503",
+          "status": "trúng"
+        },
+        {
+          "number": "744",
+          "status": "trúng"
+        },
+        {
+          "number": "566",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
