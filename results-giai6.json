@@ -9824,6 +9824,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21 23:12:07",
+      "prize6_numbers": [
+        "241",
+        "862",
+        "068"
+      ],
+      "trung": 1,
+      "trat": 2,
+      "details": [
+        {
+          "number": "241",
+          "status": "trật"
+        },
+        {
+          "number": "862",
+          "status": "trúng"
+        },
+        {
+          "number": "068",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
