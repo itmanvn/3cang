@@ -9874,6 +9874,31 @@
           "status": "trúng"
         }
       ]
+    },
+    {
+      "date": "2026-10-23",
+      "timestamp": "2026-10-23 23:00:32",
+      "prize6_numbers": [
+        "953",
+        "200",
+        "521"
+      ],
+      "trung": 0,
+      "trat": 3,
+      "details": [
+        {
+          "number": "953",
+          "status": "trật"
+        },
+        {
+          "number": "200",
+          "status": "trật"
+        },
+        {
+          "number": "521",
+          "status": "trật"
+        }
+      ]
     }
   ]
 }
