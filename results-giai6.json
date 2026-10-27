@@ -9949,6 +9949,31 @@
           "status": "trật"
         }
       ]
+    },
+    {
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27 23:57:00",
+      "prize6_numbers": [
+        "647",
+        "386",
+        "507"
+      ],
+      "trung": 2,
+      "trat": 1,
+      "details": [
+        {
+          "number": "647",
+          "status": "trúng"
+        },
+        {
+          "number": "386",
+          "status": "trật"
+        },
+        {
+          "number": "507",
+          "status": "trúng"
+        }
+      ]
     }
   ]
 }
